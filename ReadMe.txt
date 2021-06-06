@@ -1,0 +1,2 @@
+SDConfig.json：是SnapDragon测试项的描述及单位等信息的配置文件
+MultiGroupConfig.json：是SnapDragon数据生成Word，测试项合并配置文件

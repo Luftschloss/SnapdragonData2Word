@@ -1,0 +1,237 @@
+{
+	"GPU % Bus Busy": [
+		"带宽1",
+		"% of CPU time the process is active.",
+		"%"
+	],
+	"GPU Temperature": [
+		"GPU 温度",
+		"GPU Temperature.",
+		"℃"
+	],
+	"Temperature": [
+		"CPU 温度",
+		"CPU Temperature.",
+		"℃"
+	],
+	"% Anisotropic Filtered": [
+		"各向异性纹理采样百分比",
+		"Percent of texels filtered using the 'Anisotropic' sampling method.",
+		"%"
+	],
+	"% Linear Filtered": [
+		"线性（包含双线性、三线性）纹理采样百分比",
+		"Percent of texels filtered using the 'Linear' sampling method.",
+		"%"
+	],
+	"% Nearest Filtered": [
+		"邻近点纹理采样百分比",
+		"Percent of texels filtered using the 'Nearest' sampling method.",
+		"%"
+	],
+	"% Non-Base Level Textures": [
+		"Mipmap非零层采样百分比",
+		"Percent of texels coming from a non-base MIP level",
+		"%"
+	],
+	"% Shader ALU Capacity Utilized": [
+		"Shader ALU利用率",
+		"Percent of maximum shader capacity (ALU operations) utilized. For each cycle that the shaders are working, the average percentage of the total shader ALU capacity that is utilized for that cycle",
+		"%"
+	],
+	"% Shaders Busy": [
+		"Shader Core 处于Busy状态的百分比",
+		"Percentage of time that all Shader cores are busy.",
+		"%"
+	],
+	"% Time ALUs Working": [
+		"ALU Working百分比",
+		"Percentage of time that ALUs are working while the Shaders are busy.",
+		"%"
+	],
+	"% Time EFUs Working": [
+		"EFU Working 百分比",
+		"Percentage of time the EFUs are working while the Shaders are busy.",
+		"%"
+	],
+	"% Texture L1 Miss": [
+		"Texture L1 cache miss百分比",
+		"Number of L1 texture cache misses divided by L1 texture cache requests. This metric does not consider how many texture requests are made per time period (like the '% GPU L1 Texture cache miss' metric), but is simple miss to request ratio.",
+		"%"
+	],
+	"% Texture L2 Miss": [
+		"Texture L2 cache miss百分比",
+		"Number of L2 texture cache misses divided by L2 texture cache requests. This metric does not consider how many texture requests are made per time period, but is simple miss to request ratio.",
+		"%"
+	],
+	"% Stalled on System Memory": [
+		"des",
+		"Percentage of cycles the L2 cache is stalled waiting for data from system memory.",
+		"%"
+	],
+	"% Texture Fetch Stall": [
+		"des",
+		"Percentage of clock cycles where the shader processors cannot make any more requests for texture data. A high value for this metric implies the shaders cannot get texture data from the texture pipe (L1, L2 cache or memory) fast enough, and rendering performance may be negatively.",
+		"%"
+	],
+	"% Vertex Fetch Stall": [
+		"des",
+		"Percentage of clock cycles where the GPU cannot make any more requests for vertex data. A high value for this metric implies the GPU cannot get vertex data from memory fast enough, and rendering performance may be negatively affected.",
+		"%"
+	],
+	"% Time Compute": [
+		"Compute Shader 耗时百分比",
+		"Amount of time spent in compute work compared to the total time spent shading everything.",
+		"%"
+	],
+	"% Time Shading Fragments": [
+		"Fragment Shader 耗时百分比",
+		"Amount of time spent shading fragments compared to the total time spent shading everything.",
+		"%"
+	],
+	"% Time Shading Vertices": [
+		"Vertex Shader 耗时百分比",
+		"Amount of time spent shading vertices compared to the total time spent shading everything.",
+		"%"
+	],
+	"ALU / Fragment": [
+		"ALU des",
+		"Average number of scalar fragment shader ALU instructions issued per shaded fragment, expressed as full precision ALUs (2 mediump = 1fullp). Includes interpolation instruction. Does not include vertex shader instructions.",
+		"M"
+	],
+	"ALU / Vertex": [
+		"ALU des",
+		"Average number of vertex scalar shader ALU instructions issued per shaded vertex. Does not include fragment shader instructions.",
+		"M"
+	],
+	"EFU / Fragment": [
+		"EFU des",
+		"Average number of scalar fragment shader EFU instructions issued per shaded fragment. Does not include Vertex EFU instructions.",
+		"M"
+	],
+	"EFU / Vertex": [
+		"EFU des",
+		"Average number of scalar vertex shader EFU instructions issued per shaded vertex. Does not include fragment EFU instructions.",
+		"M"
+	],
+	"CPU Utilization %": [
+		"CPU 利用率",
+		"% of CPU time the process is active.",
+		"%"
+	],
+	"Clocks / Second": [
+		"每秒Clocks数",
+		"Number of GPU clocks per second.",
+		"M"
+	],
+	"FPS": [
+		"帧率",
+		"Frames per second.",
+		""
+	],
+	"Fragment ALU Instructions / Sec (Full)": [
+		"每秒Fragment ALU Instruction(Full)数量",
+		"Total number of full precision fragment shader instructions issued, per second. Does not include medium precision instructions or texture fetch instructions.",
+		"M"
+	],
+	"Fragment ALU Instructions / Sec (Half)": [
+		"每秒Fragment ALU Instruction(Half)数量",
+		"Total number of half precision Scalar fragment shader instructions issued, per second. Does not include full precision instructions or texture fetch instructions.",
+		"M"
+	],
+	"Fragment EFU Instructions / Second": [
+		"每秒Fragment EFU Instruction数量",
+		"Total number of Scalar fragment shader Elementary Function Unit(EFU) instructions issued, per second. These include math functions like sin, cos, pow, etc.",
+		"M"
+	],
+	"Fragment Instructions / Second": [
+		"每秒Fragment Instruction总数量(2个Half=1个Full)",
+		"Total number of fragment shader instructions issued, per second. Reported as full precision scalar ALU instructions - 2 medium precision instructions equal 1 full precision instruction. Also includes interpolation instructions (which are executed on the ALU hardware) and EFU (Elementary Function Unit) instructions. Does not include texture fetch instructions.",
+		"M"
+	],
+	"Fragments Shaded / Second": [
+		"每秒渲染的像素数量",
+		"Number of fragments submitted to the shader engine, per second.",
+		"M"
+	],
+	"Textures / Fragment": [
+		"des",
+		"Average number of textures referenced per fragment.",
+		""
+	],
+	"Textures / Vertex": [
+		"des",
+		"Average number of textures referenced per vertex.",
+		""
+	],
+	"L1 Texture Cache Miss Per Pixel": [
+		"平均每个像素的L1 texture cache miss数",
+		"Average number of Texture L1 cache misses per pixel. Lower values for this metric imply better memory coherency. If this value is high, consider using compressed textures, reducing texture usage, etc.",
+		""
+	],
+	"Read Total (Bytes/sec)": [
+		"GPU每秒读的数据量",
+		"Total number bytes read by the GPU from memory, per second.",
+		"Byte"
+	],
+	"SP Memory Read (Bytes/Second)": [
+		"Shader每秒读的数据量",
+		"Bytes of data from memory by the Shader Processors, per second.",
+		"Byte"
+	],
+	"Texture Memory Read BW (Bytes/Second)": [
+		"GPU每秒读Texture的数据量",
+		"Bytes of texture data read from memory per second. Includes bytes of platform compressed texture data read from memory.",
+		"Byte"
+	],
+	"Vertex Instructions / Second": [
+		"每秒Vertex Instruction数量",
+		"Total number of scalar vertex shader instructions isseud, per second. Includes full precision ALU vertex instructions and EFU vertex instructions. Does not include medium precision instructions (since they are not used for vertex shaders). Does not include vertex fetch or texture fetch instructions.",
+		""
+	],
+	"Vertex Memory Read (Bytes/Second)": [
+		"GPU每秒读顶点的数据量",
+		"Bytes of vertex data read from memory per second.",
+		"Byte"
+	],
+	"Vertices Shaded / Second": [
+		"每秒Shader处理的顶点数量（不确定不同Shader处理的同一份顶点是否会叠加）",
+		"Number of vertices submitted to the shader engine, per second.",
+		""
+	],
+	"Write Total (Bytes/sec)": [
+		"GPU每秒写的数据量",
+		"Total number of bytes written by the GPU to memory, per second.",
+		"Byte"
+	],
+	"Avg Bytes / Fragment": [
+		"des",
+		"Average number of bytes transferred from main memory for each fragment.",
+		"Byte"
+	],
+	"Avg Bytes / Vertex": [
+		"des",
+		"Average number of bytes transferred from main memory for each vertex.",
+		"Byte"
+	],
+	"% Prims Clipped": [
+		"图元裁剪的百分比",
+		"Percentage of primitives clipped by the GPU (where new primitives are generated). For a primitive to be clipped, it has to have a visible portion inside the viewport but extend outside the 'guardband' - an area that surrounds the viewport and significantly reduces the number of primitives the hardware has to clip.",
+		"%"
+	],
+	"% Prims Trivially Rejected": [
+		"剔除的图元的百分比",
+		"Percentage of primitives that are trivially rejected. A primitive can be trivially rejected if it is outside the visible region of the render surface. These primitives are ignored by the rasterizer.",
+		"%"
+	],
+	"Pre-clipped Polygons/Second": [
+		"每秒传到GPU的面数",
+		"Number of polygons submitted to the GPU, per second, before any hardware clipping.",
+		""
+	],
+	"Reused Vertices / Second": [
+		"每秒Reused（定义目前还说不清楚）的顶点数",
+		"Number of vertices used from the post-transform vertex buffer cache. A vertex may be used in multiple primitives; a high value for this metric (compared to number of vertices shaded) indicates good re-use of transformed vertices, reducing vertex shader workload.",
+		""
+	]
+}
