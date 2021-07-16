@@ -65,17 +65,17 @@
 		"%"
 	],
 	"% Stalled on System Memory": [
-		"des",
+		"",
 		"Percentage of cycles the L2 cache is stalled waiting for data from system memory.",
 		"%"
 	],
 	"% Texture Fetch Stall": [
-		"des",
+		"",
 		"Percentage of clock cycles where the shader processors cannot make any more requests for texture data. A high value for this metric implies the shaders cannot get texture data from the texture pipe (L1, L2 cache or memory) fast enough, and rendering performance may be negatively.",
 		"%"
 	],
 	"% Vertex Fetch Stall": [
-		"des",
+		"",
 		"Percentage of clock cycles where the GPU cannot make any more requests for vertex data. A high value for this metric implies the GPU cannot get vertex data from memory fast enough, and rendering performance may be negatively affected.",
 		"%"
 	],
@@ -95,22 +95,22 @@
 		"%"
 	],
 	"ALU / Fragment": [
-		"ALU des",
+		"ALU ",
 		"Average number of scalar fragment shader ALU instructions issued per shaded fragment, expressed as full precision ALUs (2 mediump = 1fullp). Includes interpolation instruction. Does not include vertex shader instructions.",
 		"M"
 	],
 	"ALU / Vertex": [
-		"ALU des",
+		"",
 		"Average number of vertex scalar shader ALU instructions issued per shaded vertex. Does not include fragment shader instructions.",
 		"M"
 	],
 	"EFU / Fragment": [
-		"EFU des",
+		"",
 		"Average number of scalar fragment shader EFU instructions issued per shaded fragment. Does not include Vertex EFU instructions.",
 		"M"
 	],
 	"EFU / Vertex": [
-		"EFU des",
+		"",
 		"Average number of scalar vertex shader EFU instructions issued per shaded vertex. Does not include fragment EFU instructions.",
 		"M"
 	],
@@ -155,12 +155,12 @@
 		"M"
 	],
 	"Textures / Fragment": [
-		"des",
+		"",
 		"Average number of textures referenced per fragment.",
 		""
 	],
 	"Textures / Vertex": [
-		"des",
+		"",
 		"Average number of textures referenced per vertex.",
 		""
 	],
@@ -205,12 +205,12 @@
 		"Byte"
 	],
 	"Avg Bytes / Fragment": [
-		"des",
+		"",
 		"Average number of bytes transferred from main memory for each fragment.",
 		"Byte"
 	],
 	"Avg Bytes / Vertex": [
-		"des",
+		"",
 		"Average number of bytes transferred from main memory for each vertex.",
 		"Byte"
 	],
@@ -220,7 +220,7 @@
 		"%"
 	],
 	"% Prims Trivially Rejected": [
-		"剔除的图元的百分比",
+		"光栅化剔除的图元的百分比",
 		"Percentage of primitives that are trivially rejected. A primitive can be trivially rejected if it is outside the visible region of the render surface. These primitives are ignored by the rasterizer.",
 		"%"
 	],

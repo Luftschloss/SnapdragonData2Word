@@ -11,10 +11,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-CSVDataPath = "C:/Users/Luft/Desktop/Snapdragon/测试数据/EternalEvolution_fight.csv"
 MultiGroupConfig = "MultiGroupConfig.json"
 MatrixInfoConfig = "SDConfig.json"
-XAxisTitle = "Time / ms"
+XAxisTitle = "Time / s"
 MatrixCurveWidth = 2
 MatrixCurveColor = ['g', 'b', 'c', 'y', 'r', 'm']
 
@@ -86,12 +85,12 @@ def processDataCurveOneByOne(document: Document, processTypeList, matrixDataDic)
                 document.add_paragraph('平均值：' + str(round(matrixData.getAverageValue(), 2)))
 
 
-def createSnapDragonDataDocx(word_path):
+def createSnapDragonDataDocx(csvDataPath, word_path, timePeriods):
     document = Document()
     document.add_heading('Snapdragon 数据', level=0)
 
     print("Process CSV Begin")
-    processTypeList, matrixDataDic, matrixList = csv_process(CSVDataPath)
+    processTypeList, matrixDataDic, matrixList = csv_process(csvDataPath, timePeriods)
     print("Process CSV End")
 
     # processDataCurveOneByOne(document, processTypeList, matrixDataDic)
@@ -157,7 +156,7 @@ def drawSingleAndSaveFigure(matrixData: DataMatrix):
     ax1 = fig.add_subplot(1, 1, 1)
     ax1.set_xlabel(XAxisTitle)  # x轴标签
     ax1.set_ylabel(matrixData.matrixName)  # y轴标签
-    ax1.set_title(matrixData.matrixDescENG)  # 图标标题
+    # ax1.set_title(matrixData.matrixDescENG)  # 图标标题
     # ax1.text(6, 37, 'test')  # 文本，(6,37)设置文本注释在图片中的坐标
     ax1.grid(linestyle='--', linewidth=1)  # 背景网格
     ax1.plot(xa, ya, color='g', linestyle="-", linewidth=1, label=matrixData.matrixName)
@@ -187,13 +186,14 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName):
             ya.append(frameData.value)
         ax1.set_xlabel(XAxisTitle)  # x轴标签
         ax1.set_ylabel(matrixData.matrixName)  # y轴标签
-        ax1.set_title(matrixData.matrixDescENG)  # 图标标题
+        # ax1.set_title(matrixData.matrixDescENG)  # 图标标题
         # ax1.text(6, 37, 'test')  # 文本，(6,37)设置文本注释在图片中的坐标
-        ax1.grid(linestyle='--', linewidth=1)  # 背景网格
+        # ax1.grid(linestyle='--', linewidth=1)  # 背景网格
         ax1.plot(xa, ya, color=MatrixCurveColor[index], linestyle="-", linewidth=curveLineWidth,
                  label=matrixData.matrixName)
         index += 1
     plt.legend()
+    plt.axis("tight")
 
     # Save Figure
     figureFoldPath = "Figures"
@@ -205,8 +205,14 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName):
     return figureImgPath
 
 
+def CheckInTimePeriods(time, timePeriods):
+    for timePeriod in timePeriods:
+        if timePeriod[0] < time < timePeriod[1]:
+            return True
+    return False
+
 # 读取CSV数据
-def csv_process(csv_path):
+def csv_process(csv_path, timePeriods):
     # csv数据表头
     processColStr = 'Process'
     matrixColStr = 'Metric'
@@ -230,18 +236,19 @@ def csv_process(csv_path):
         key = processList[i] + '_' + matrixList[i]
         if not processTypeList.__contains__(processList[i]):
             processTypeList.append(processList[i])
-
-        frameData = KeyFrameData()
-        frameData.time = round(timeStampList[i] / 1000000, 1)
-        frameData.value = valueList[i]
-        if key not in matrixDataDic:
-            data = DataMatrix()
-            matrixName = re.sub(u"\\[.*?\\]", "", matrixList[i])
-            data.matrixName = matrixName
-            data.matrixFileName = matrixName.replace('/', 'Per')
-            data.processType = processList[i]
-            matrixDataDic[key] = data
-            if not matrixNameList.__contains__(matrixName):
-                matrixNameList.append(matrixName)
-        matrixDataDic[key].append(frameData)
+        time = round(timeStampList[i] / 1000000, 1)
+        if timePeriods is None or CheckInTimePeriods(time, timePeriods):
+            frameData = KeyFrameData()
+            frameData.time = time
+            frameData.value = valueList[i]
+            if key not in matrixDataDic:
+                data = DataMatrix()
+                matrixName = re.sub(u"\\[.*?\\]", "", matrixList[i])
+                data.matrixName = matrixName
+                data.matrixFileName = matrixName.replace('/', 'Per')
+                data.processType = processList[i]
+                matrixDataDic[key] = data
+                if not matrixNameList.__contains__(matrixName):
+                    matrixNameList.append(matrixName)
+            matrixDataDic[key].append(frameData)
     return processTypeList, matrixDataDic, matrixNameList
