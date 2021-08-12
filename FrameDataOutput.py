@@ -7,37 +7,52 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 class DrawCallData:
     def __init__(self):
         self.ID = 0  # 时间
+        self.IDStr = "ID"
         self.Name = 0  # 数值
+        self.NameStr = "Name"
         self.Parameters = ""  # 参数
+        self.ParametersStr = "Parameters"
         self.Clocks = 0
+        self.ClocksStr = "Clocks"
         self.SPRead = 0
+        self.SPReadStr = "SP Memory Read (Bytes)"
         self.VertexRead = 0
+        self.VertexReadStr = "Vertex Memory Read (Bytes)"
         self.TextureRead = 0
+        self.TextureReadStr = "Texture Memory Read BW (Bytes)"
         self.ReadTotal = 0
+        self.ReadTotalStr = "Read Total (Bytes)"
         self.WriteTotal = 0
+        self.WriteTotalStr = "Write Total (Bytes)"
 
 
 def getAllDrawCalls(csv_path):
     csv_file = open(csv_path)
     csv_reader_lines = csv.reader(csv_file)
     drawCallDataArray = []
+    idx = -1
+    headline = []
+    headIdxDic = {}
     for one_line in csv_reader_lines:
-        if one_line[0].strip() == '':
+        idx = idx + 1
+        if (one_line[0].strip() == '') or (one_line[5].strip() == ''):
             continue
-        elif one_line[0].strip() == "ID":
+        if idx == 0:
+            headline = one_line.copy()
+            for i, val in enumerate(headline):
+                if val.strip() != "":
+                    headIdxDic[val.strip()] = i
             continue
         drawCall = DrawCallData()
-        drawCall.ID = int(one_line[0].strip())
-        drawCall.Name = one_line[1].strip()
-        drawCall.Parameters = one_line[2].strip()
-        if one_line[5].strip() == '':
-            continue
-        drawCall.Clocks = int(one_line[5].strip())
-        drawCall.SPRead = int(one_line[7].strip())
-        drawCall.VertexRead = int(one_line[9].strip())
-        drawCall.TextureRead = int(one_line[8].strip())
-        drawCall.WriteTotal = int(one_line[10].strip())
-        drawCall.ReadTotal = int(one_line[6].strip())
+        drawCall.ID = int(one_line[headIdxDic[drawCall.IDStr]].strip())
+        drawCall.Name = one_line[headIdxDic[drawCall.NameStr]].strip()
+        drawCall.Parameters = one_line[headIdxDic[drawCall.ParametersStr]].strip()
+        drawCall.Clocks = int(one_line[headIdxDic[drawCall.ClocksStr]].strip())
+        drawCall.SPRead = int(one_line[headIdxDic[drawCall.SPReadStr]].strip())
+        drawCall.VertexRead = int(one_line[headIdxDic[drawCall.VertexReadStr]].strip())
+        drawCall.TextureRead = int(one_line[headIdxDic[drawCall.TextureReadStr]].strip())
+        drawCall.WriteTotal = int(one_line[headIdxDic[drawCall.WriteTotalStr]].strip())
+        drawCall.ReadTotal = int(one_line[headIdxDic[drawCall.ReadTotalStr]].strip())
         drawCallDataArray.append(drawCall)
     return drawCallDataArray
 

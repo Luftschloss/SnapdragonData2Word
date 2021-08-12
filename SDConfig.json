@@ -1,7 +1,7 @@
 {
 	"GPU % Bus Busy": [
 		"带宽1",
-		"% of CPU time the process is active.",
+		"Approximate Percentage of time the GPU's bus to system memory is busy.",
 		"%"
 	],
 	"GPU Temperature": [
@@ -233,5 +233,10 @@
 		"每秒Reused（定义目前还说不清楚）的顶点数",
 		"Number of vertices used from the post-transform vertex buffer cache. A vertex may be used in multiple primitives; a high value for this metric (compared to number of vertices shaded) indicates good re-use of transformed vertices, reducing vertex shader workload.",
 		""
+	],
+	"GPU Frequency": [
+		"GPU频率",
+		"GPU Frequency",
+		"M"
 	]
 }

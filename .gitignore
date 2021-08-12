@@ -1,3 +1,6 @@
 __pycache__/
 datas/
 .idea/
+Figures/
+*.docx
+*.csv

@@ -1,5 +1,7 @@
 {
 	"GPU Bus Busy":["GPU % Bus Busy"],
+
+	"GPU Frequency": ["GPU Frequency"],
 	
 	"Temperature":[
 		"GPU Temperature", 
