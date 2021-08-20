@@ -204,7 +204,7 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName):
     plt.savefig(figureImgPath)
     return figureImgPath
 
-
+#时间段数据过滤
 def CheckInTimePeriods(time, timePeriods):
     for timePeriod in timePeriods:
         if timePeriod[0] < time < timePeriod[1]:
@@ -244,6 +244,8 @@ def csv_process(csv_path, timePeriods):
             if key not in matrixDataDic:
                 data = DataMatrix()
                 matrixName = re.sub(u"\\[.*?\\]", "", matrixList[i])
+                if processList[i] == "Global":
+                    matrixName = "Global_" + matrixName
                 data.matrixName = matrixName
                 data.matrixFileName = matrixName.replace('/', 'Per')
                 data.processType = processList[i]

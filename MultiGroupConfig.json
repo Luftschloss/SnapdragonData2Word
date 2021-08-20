@@ -1,11 +1,11 @@
 {
-	"GPU Bus Busy":["GPU % Bus Busy"],
+	"GPU Bus Busy":["Global_GPU % Bus Busy"],
 
-	"GPU Frequency": ["GPU Frequency"],
+	"GPU Frequency": ["Global_GPU Frequency"],
 	
 	"Temperature":[
-		"GPU Temperature", 
-		"Temperature"],
+		"Global_GPU Temperature",
+		"Global_Temperature"],
 	
 	"Texture Filtered":[
 		"% Anisotropic Filtered", 
