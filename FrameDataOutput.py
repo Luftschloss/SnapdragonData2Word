@@ -12,6 +12,16 @@ from PIL import Image
 from docx.shared import Cm, Inches, Pt
 
 
+class TableTool:
+    def make_table_column(tb, cols):
+        if len(cols) != len(tb.rows[0].cells):
+            return
+        tb.autofit = False
+        for row_num in range(len(tb.rows)):
+            for col_num in range(len(tb.rows[0].cells)):
+                tb.cell(row_num, col_num).width = cols[col_num]
+
+
 # 每一帧的数据类
 class DrawCallData:
     def __init__(self):
@@ -198,17 +208,12 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
     fontSize = Pt(10)
     for i in range(topNum):
         dc = allDrawCalls[i]
-        document.add_heading("Top " + str(i), level=2)
+        document.add_heading("Top " + str(i+1), level=2)
         document.add_paragraph("DrawCall " + str(dc.ID))
         imageInfoList = getDrawCallImages(dc.ID, frameResPath)
         dcTable = document.add_table(2, 3, style="Table Grid")
-        dcTable.width = Cm(9.2) + Cm(3) + Cm(3.2)
-        dcTable.autofit = False
-        dcTable.allow_autofit = False
-        widths = (Cm(9.2), Cm(3), Cm(3.2))
-        for row in dcTable.rows:
-            for idx, width in enumerate(widths):
-                row.cells[idx].width = width
+        # dcTable.width = Cm(9.2) + Cm(3) + Cm(3.2)
+
         dcTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
         dcTable.cell(0, 0).text = "帧截图"
         dcTable.cell(0, 1).text = "渲染相关资源"
@@ -259,5 +264,7 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
             for prop in programProperties:
                 p.add_run("{0}\n".format(prop)).font.size = fontSize
 
+        widths = (Cm(9.2), Cm(3), Cm(3.2))
+        TableTool.make_table_column(dcTable, widths)
     document.save(word_path)
     print("Save SDFrameData")
