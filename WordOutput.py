@@ -14,12 +14,12 @@ import numpy as np
 MultiGroupConfig = "MultiGroupConfig.json"
 MatrixInfoConfig = "SDConfig.json"
 XAxisTitle = "Time / s"
-MatrixCurveWidth = 2
+MatrixCurveWidth = 0.5
 MatrixCurveColor = ['g', 'b', 'c', 'y', 'r', 'm']
 
 
 # 处理数据组，生成Word内容
-def processDataCurveByConfig(document: Document, matrixList, matrixDataDic):
+def processDataCurveByConfig(document: Document, matrixList, matrixDataDic, slicedPeriods):
     # 读取MatrixConfig
     matrixInfo = {}
     with open(MatrixInfoConfig, 'r', encoding='utf-8') as e:
@@ -51,7 +51,7 @@ def processDataCurveByConfig(document: Document, matrixList, matrixDataDic):
         if len(matrixDataArray) == 0:
             print("Group " + key + " No Data")
             continue
-        curveImgPath = drawMultiAndSaveFigure(matrixDataArray, key)
+        curveImgPath = drawMultiAndSaveFigure(matrixDataArray, key, slicedPeriods)
         document.add_picture(curveImgPath, width=Inches(6))
         # 生成数据表格
         dataTable = document.add_table(len(matrixDataArray) + 1, 4, style="Light Grid")
@@ -85,7 +85,7 @@ def processDataCurveOneByOne(document: Document, processTypeList, matrixDataDic)
                 document.add_paragraph('平均值：' + str(round(matrixData.getAverageValue(), 2)))
 
 
-def createSnapDragonDataDocx(csvDataPath, word_path, timePeriods):
+def createSnapDragonDataDocx(csvDataPath, word_path, timePeriods, slicedPeriods):
     document = Document()
     document.add_heading('Snapdragon 数据', level=0)
 
@@ -94,7 +94,7 @@ def createSnapDragonDataDocx(csvDataPath, word_path, timePeriods):
     print("Process CSV End")
 
     # processDataCurveOneByOne(document, processTypeList, matrixDataDic)
-    processDataCurveByConfig(document, matrixList, matrixDataDic)
+    processDataCurveByConfig(document, matrixList, matrixDataDic, slicedPeriods)
 
     document.save(word_path)
     print("Save SnapDragon Docx")
@@ -173,17 +173,23 @@ def drawSingleAndSaveFigure(matrixData: DataMatrix):
 
 
 # 绘制多条曲线并生成曲线图
-def drawMultiAndSaveFigure(matrixDataArray, groupName):
+def drawMultiAndSaveFigure(matrixDataArray, groupName, slicedPeriods):
     fig = plt.figure()
     ax1 = fig.add_subplot(1, 1, 1)
     index = 0
-    curveLineWidth = MatrixCurveWidth / len(matrixDataArray)
+    curveLineWidth = MatrixCurveWidth
+    maxY = -1
+    minY = 100000
     for matrixData in matrixDataArray:
         xa = []
         ya = []
         for frameData in matrixData.frameDataList:
             xa.append(frameData.time)
             ya.append(frameData.value)
+            if frameData.value > maxY:
+                maxY = frameData.value
+            if frameData.value < minY:
+                minY = frameData.value
         ax1.set_xlabel(XAxisTitle)  # x轴标签
         ax1.set_ylabel(matrixData.matrixName)  # y轴标签
         # ax1.set_title(matrixData.matrixDescENG)  # 图标标题
@@ -195,6 +201,11 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName):
     plt.legend()
     plt.axis("tight")
 
+    if slicedPeriods is not None:  # add sliced line
+        deltaY = (maxY - minY) * 0.02
+        for time in slicedPeriods:
+            plt.vlines(time, minY - deltaY, maxY + deltaY, colors="r", linestyles="dashed")
+
     # Save Figure
     figureFoldPath = "Figures"
     folder = os.path.exists(figureFoldPath)
@@ -204,12 +215,14 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName):
     plt.savefig(figureImgPath)
     return figureImgPath
 
-#时间段数据过滤
+
+# 时间段数据过滤
 def CheckInTimePeriods(time, timePeriods):
     for timePeriod in timePeriods:
         if timePeriod[0] < time < timePeriod[1]:
             return True
     return False
+
 
 # 读取CSV数据
 def csv_process(csv_path, timePeriods):
