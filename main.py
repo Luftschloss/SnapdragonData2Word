@@ -3,12 +3,12 @@ import FrameDataOutput
 
 # 数据换区间段过滤设置为None
 timePeriods = None
-timePeriods = [(180, 920)]
-# 分割线数据
+timePeriods = [(310, 925)]
+# 分割线区间段
 slicedPeriods = None
-slicedPeriods = [300, 450]
+# slicedPeriods = [315]
 
-word = WordOutput.createSnapDragonDataDocx("23.csv", "23.docx", timePeriods, slicedPeriods)
+word = WordOutput.createSnapDragonDataDocx("basketball.csv", "basketball.docx", timePeriods, slicedPeriods)
 
 frameResourcePath = "..\\SnapDragonData2World\\FrameCapture"
 # "Read Total (Bytes)"、“Clocks”

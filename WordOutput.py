@@ -15,23 +15,19 @@ MultiGroupConfig = "MultiGroupConfig.json"
 MatrixInfoConfig = "SDConfig.json"
 XAxisTitle = "Time / s"
 MatrixCurveWidth = 0.5
-MatrixCurveColor = ['g', 'b', 'c', 'y', 'r', 'm']
+MatrixCurveColor = [[50/255, 177/255, 250/255], [180/255, 144/255, 245/255], [249/255, 196/255, 15/255],
+                    [131/255, 211/255, 56/255], [243/255, 81/255, 69/255]]
 
 
 # 处理数据组，生成Word内容
-def processDataCurveByConfig(document: Document, matrixList, matrixDataDic, slicedPeriods):
-    # 读取MatrixConfig
-    matrixInfo = {}
-    with open(MatrixInfoConfig, 'r', encoding='utf-8') as e:
-        matrixInfo = json.loads(e.read())
-
+def processDataCurveByConfig(document: Document, matrixKeyList, matrixDataDic, slicedPeriods):
     # 读取GroupConfig
     groupConfigDic = {}
     with open(MultiGroupConfig, 'r') as f:
         groupConfigDic = json.loads(f.read())
     for group in groupConfigDic.values():
         for matrix in group:
-            if not matrixList.__contains__(matrix):
+            if not matrixKeyList.__contains__(matrix):
                 print("Remove Matrix : " + matrix)
                 group.remove(matrix)
 
@@ -43,9 +39,9 @@ def processDataCurveByConfig(document: Document, matrixList, matrixDataDic, slic
         plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
         plt.rcParams['figure.max_open_warning'] = 40  # 画图最大限制40
         matrixDataArray = []
-        for matrixName in v:
+        for keyName in v:
             for matrixData in matrixDataDic.values():
-                if matrixData.matrixName == matrixName:
+                if matrixData.keyName == keyName:
                     matrixDataArray.append(matrixData)
                     break
         if len(matrixDataArray) == 0:
@@ -61,7 +57,7 @@ def processDataCurveByConfig(document: Document, matrixList, matrixDataDic, slic
             dataTable.cell(0, i).text = headLine[i]
         for i in range(len(matrixDataArray)):
             matrixData = matrixDataArray[i]
-            dataLine = [matrixData.matrixName, str(round(matrixData.minValue, 2)), str(round(matrixData.maxValue, 2)),
+            dataLine = [matrixData.matrixNameCN, str(round(matrixData.minValue, 2)), str(round(matrixData.maxValue, 2)),
                         str(round(matrixData.getAverageValue(), 2))]
             for j in range(4):
                 dataTable.cell(i + 1, j).text = dataLine[j]
@@ -90,11 +86,11 @@ def createSnapDragonDataDocx(csvDataPath, word_path, timePeriods, slicedPeriods)
     document.add_heading('Snapdragon 数据', level=0)
 
     print("Process CSV Begin")
-    processTypeList, matrixDataDic, matrixList = csv_process(csvDataPath, timePeriods)
+    processTypeList, matrixDataDic, matrixKeyList = csv_process(csvDataPath, timePeriods)
     print("Process CSV End")
 
     # processDataCurveOneByOne(document, processTypeList, matrixDataDic)
-    processDataCurveByConfig(document, matrixList, matrixDataDic, slicedPeriods)
+    processDataCurveByConfig(document, matrixKeyList, matrixDataDic, slicedPeriods)
 
     document.save(word_path)
     print("Save SnapDragon Docx")
@@ -111,7 +107,9 @@ class KeyFrameData:
 class DataMatrix:
     def __init__(self):
         self.processType = ''  # 进程名称
+        self.keyName = ''   #用作Key的唯一名称
         self.matrixName = ''  # 数据名称
+        self.matrixNameCN = ''  # 中文名
         self.matrixFileName = ''  # 数据文件名替换了'/'
         self.start = 0  # 数据起始Index
         self.end = 0  # 数据末尾Index
@@ -180,6 +178,7 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName, slicedPeriods):
     curveLineWidth = MatrixCurveWidth
     maxY = -1
     minY = 100000
+    ax1.set_ylabel(groupName)  # y轴标签
     for matrixData in matrixDataArray:
         xa = []
         ya = []
@@ -190,13 +189,12 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName, slicedPeriods):
                 maxY = frameData.value
             if frameData.value < minY:
                 minY = frameData.value
-        ax1.set_xlabel(XAxisTitle)  # x轴标签
-        ax1.set_ylabel(matrixData.matrixName)  # y轴标签
+        ax1.set_xlabel(XAxisTitle)  # x轴标
         # ax1.set_title(matrixData.matrixDescENG)  # 图标标题
         # ax1.text(6, 37, 'test')  # 文本，(6,37)设置文本注释在图片中的坐标
         # ax1.grid(linestyle='--', linewidth=1)  # 背景网格
         ax1.plot(xa, ya, color=MatrixCurveColor[index], linestyle="-", linewidth=curveLineWidth,
-                 label=matrixData.matrixName)
+                 label=matrixData.matrixNameCN)
         index += 1
     plt.legend()
     plt.axis("tight")
@@ -226,6 +224,11 @@ def CheckInTimePeriods(time, timePeriods):
 
 # 读取CSV数据
 def csv_process(csv_path, timePeriods):
+    # 读取MatrixConfig
+    matrixConfig = {}
+    with open(MatrixInfoConfig, 'r', encoding='utf-8') as e:
+        matrixConfig = json.loads(e.read())
+
     # csv数据表头
     processColStr = 'Process'
     matrixColStr = 'Metric'
@@ -243,27 +246,35 @@ def csv_process(csv_path, timePeriods):
 
     matrixDataDic = {}
     processTypeList = []
-    matrixNameList = []
+    matrixKeyList = []
+    matrixInfo = None
 
     for i in range(dataLen):
         key = processList[i] + '_' + matrixList[i]
         if not processTypeList.__contains__(processList[i]):
             processTypeList.append(processList[i])
         time = round(timeStampList[i] / 1000000, 1)
+
         if timePeriods is None or CheckInTimePeriods(time, timePeriods):
             frameData = KeyFrameData()
             frameData.time = time
-            frameData.value = valueList[i]
+
             if key not in matrixDataDic:
                 data = DataMatrix()
                 matrixName = re.sub(u"\\[.*?\\]", "", matrixList[i])
+                keyName = matrixName
                 if processList[i] == "Global":
-                    matrixName = "Global_" + matrixName
+                    keyName = "Global_" + keyName
+                matrixInfo = matrixConfig[matrixName]
+                data.matrixNameCN = matrixInfo[0]
+                data.keyName = keyName
                 data.matrixName = matrixName
+
                 data.matrixFileName = matrixName.replace('/', 'Per')
                 data.processType = processList[i]
                 matrixDataDic[key] = data
-                if not matrixNameList.__contains__(matrixName):
-                    matrixNameList.append(matrixName)
+                if not matrixKeyList.__contains__(keyName):
+                    matrixKeyList.append(keyName)
+            frameData.value = valueList[i] / matrixInfo[3]
             matrixDataDic[key].append(frameData)
-    return processTypeList, matrixDataDic, matrixNameList
+    return processTypeList, matrixDataDic, matrixKeyList
