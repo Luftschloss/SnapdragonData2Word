@@ -83,11 +83,11 @@ def getAllDrawCalls(csv_path):
         drawCall.Name = one_line[headIdxDic[drawCall.NameStr]].strip()
         drawCall.Parameters = one_line[headIdxDic[drawCall.ParametersStr]].strip()
         drawCall.Clocks = int(one_line[headIdxDic[drawCall.ClocksStr]].strip())
-        drawCall.SPRead = int(one_line[headIdxDic[drawCall.SPReadStr]].strip())
-        drawCall.VertexRead = int(one_line[headIdxDic[drawCall.VertexReadStr]].strip())
-        drawCall.TextureRead = int(one_line[headIdxDic[drawCall.TextureReadStr]].strip())
-        drawCall.WriteTotal = int(one_line[headIdxDic[drawCall.WriteTotalStr]].strip())
-        drawCall.ReadTotal = int(one_line[headIdxDic[drawCall.ReadTotalStr]].strip())
+        drawCall.SPRead = int(one_line[headIdxDic[drawCall.SPReadStr]].strip())/2014
+        drawCall.VertexRead = int(one_line[headIdxDic[drawCall.VertexReadStr]].strip())/1024
+        drawCall.TextureRead = int(one_line[headIdxDic[drawCall.TextureReadStr]].strip())/1024
+        drawCall.WriteTotal = int(one_line[headIdxDic[drawCall.WriteTotalStr]].strip())/1024
+        drawCall.ReadTotal = int(one_line[headIdxDic[drawCall.ReadTotalStr]].strip())/1024
         drawCallDataArray.append(drawCall)
     return drawCallDataArray
 
@@ -141,7 +141,7 @@ def getDrawCallImages(drawCall, imagePath):
     return imageInfoList
 
 def getTaleValueStr(value, valueSum):
-    return str(value) + " (" + str("%.1f%%" % (value * 100.0 / valueSum)) + ")"
+    return str(round(value, 2)) + " (" + str("%.1f%%" % (value * 100.0 / valueSum)) + ")"
 
 def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
     document = Document()
@@ -164,7 +164,7 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
     document.add_paragraph(summaryParagraph, style='Body Text')
     dataTable = document.add_table(topNum + 2, 6, style="Light Grid")
     dataTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
-    headLine = ["DrawCall", "Clocks", "Vertex Memory Read", "Texture Memory Read BW", "Write Total", "Read Total"]
+    headLine = ["DrawCall", "Clocks", "Vertex Memory Read（KB）", "Texture Memory Read BW（KB）", "Write Total（KB）", "Read Total（KB）"]
     if Matrix == "Clocks":
         highLightIdx = 1
     elif Matrix == "Read Total (Bytes)":
@@ -184,10 +184,10 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
 
     dataTable.cell(topNum + 1, 0).text = drawCallSum.ID
     dataTable.cell(topNum + 1, 1).text = str(drawCallSum.Clocks)
-    dataTable.cell(topNum + 1, 2).text = str(drawCallSum.VertexRead)
-    dataTable.cell(topNum + 1, 3).text = str(drawCallSum.TextureRead)
-    dataTable.cell(topNum + 1, 4).text = str(drawCallSum.WriteTotal)
-    dataTable.cell(topNum + 1, 5).text = str(drawCallSum.ReadTotal)
+    dataTable.cell(topNum + 1, 2).text = str(round(drawCallSum.VertexRead, 2))
+    dataTable.cell(topNum + 1, 3).text = str(round(drawCallSum.TextureRead, 2))
+    dataTable.cell(topNum + 1, 4).text = str(round(drawCallSum.WriteTotal, 2))
+    dataTable.cell(topNum + 1, 5).text = str(round(drawCallSum.ReadTotal, 2))
     shading_elm1 = parse_xml(r'<w:shd {} w:fill="FFDE3B"/>'.format(nsdecls('w')))
     dataTable.cell(topNum + 1, highLightIdx)._tc.get_or_add_tcPr().append(shading_elm1)
 

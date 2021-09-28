@@ -1,19 +1,19 @@
 {
-	"GPU Bus Busy":["Global_GPU % Bus Busy"],
+	"GPU Bus Busy（%）":["Global_GPU % Bus Busy"],
 
-	"GPU Frequency": ["Global_GPU Frequency"],
+	"GPU Frequency（M/s）": ["Global_GPU Frequency"],
 	
-	"Temperature":[
+	"Temperature（℃）":[
 		"Global_GPU Temperature",
 		"Global_Temperature"],
 	
-	"Texture Filtered":[
+	"Texture Filtered（%）":[
 		"% Anisotropic Filtered", 
 		"% Linear Filtered", 
 		"% Nearest Filtered", 
 		"% Non-Base Level Textures"],
 	
-	"GPU Cache":[
+	"GPU Cache（%）":[
 		"% Texture L1 Miss", 
 		"% Texture L2 Miss",
 		"% Texture Fetch Stall",
@@ -28,7 +28,7 @@
 		"EFU / Fragment",
 		"EFU / Vertex"],
 	
-	"Shader Time":[
+	"Shader Time（%）":[
 		"% Time Compute",
 		"% Time Shading Fragments", 
 		"% Time Shading Vertices", 
@@ -47,13 +47,13 @@
 	"Vertex ALU Instructions":[
 		"Vertex Instructions / Second"],
 
-	"Clocks":["Clocks / Second"],
+	"Clocks（M/s）":["Clocks / Second"],
 
 	"FPS":["FPS"],
 
 	"ALU Capacity Utilized":["% Shader ALU Capacity Utilized"],
 
-	"CPU Utilization":["CPU Utilization %"],
+	"CPU Utilization（%）":["CPU Utilization %"],
 
 	"Fragments Shaded":[
 		"Fragments Shaded / Second"],
@@ -71,7 +71,7 @@
 	"SP Memory":[
 		"SP Memory Read (Bytes/Second)"],
 
-	"GPU Memory":[
+	"GPU Memory（MB/s）":[
 		"Read Total (Bytes/sec)",
 		"Texture Memory Read BW (Bytes/Second)",
 		"Vertex Memory Read (Bytes/Second)", 
@@ -83,11 +83,11 @@
 	"Bytes Per Fragment": [
 		"Avg Bytes / Fragment"],
 
-	"Prims Clip": [
+	"Prims Clip（%）": [
 		"% Prims Clipped",
 		"% Prims Trivially Rejected"],
 
-	"Pre Clipped": [
+	"Pre Clipped（%）": [
 		"Pre-clipped Polygons/Second"],
 
 	"Reused Vertices": [

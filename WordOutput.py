@@ -23,7 +23,7 @@ MatrixCurveColor = [[50/255, 177/255, 250/255], [180/255, 144/255, 245/255], [24
 def processDataCurveByConfig(document: Document, matrixKeyList, matrixDataDic, slicedPeriods):
     # 读取GroupConfig
     groupConfigDic = {}
-    with open(MultiGroupConfig, 'r') as f:
+    with open(MultiGroupConfig, 'r', encoding='utf-8') as f:
         groupConfigDic = json.loads(f.read())
     for group in groupConfigDic.values():
         for matrix in group:
@@ -209,7 +209,7 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName, slicedPeriods):
     folder = os.path.exists(figureFoldPath)
     if not folder:
         os.makedirs(figureFoldPath)
-    figureImgPath = figureFoldPath + "/" + groupName + ".png"
+    figureImgPath = figureFoldPath + "/" + str.split(groupName,'（')[0] + ".png"
     plt.savefig(figureImgPath)
     return figureImgPath
 
@@ -265,6 +265,8 @@ def csv_process(csv_path, timePeriods):
                 keyName = matrixName
                 if processList[i] == "Global":
                     keyName = "Global_" + keyName
+                if not matrixConfig.__contains__(matrixName):
+                    continue
                 matrixInfo = matrixConfig[matrixName]
                 data.matrixNameCN = matrixInfo[0]
                 data.keyName = keyName
