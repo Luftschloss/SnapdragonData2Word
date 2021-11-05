@@ -115,7 +115,7 @@ def getImageInfo(imageFoldPath, fileName: str):
             imageInfo.imagePath = fullPath
             imageInfo.imageName = fileName.strip(".png")
             imageInfo.imageType = ImageType.T2D
-            if fileName.startswith("DrawCall_"):
+            if fileName.startswith("DrawCall_") or fileName.startswith("HighLight_"):
                 imageInfo.isFrameCapture = True
         else:
             return None
@@ -222,12 +222,20 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         isFirstImage = True
         for imageInfo in imageInfoList:
             if imageInfo.isFrameCapture:
-                pr1 = dcTable.cell(1,0).paragraphs[0].add_run()
-                pic = pr1.add_picture(imageInfo.imagePath)
-                scale1 = imageInfo.size[0] / 8.8
-                pic.height = Cm(imageInfo.size[1]/scale1)
-                pic.width = Cm(8.8)
-                dcTable.cell(1, 0).add_paragraph("{0}x{1}".format(imageInfo.size[0], imageInfo.size[1]))
+                if(imageInfo.imageName.startswith("DrawCall_")):
+                    pr1 = dcTable.cell(1,0).paragraphs[0].add_run()
+                    pic = pr1.add_picture(imageInfo.imagePath)
+                    scale1 = imageInfo.size[0] / 8.8
+                    pic.height = Cm(imageInfo.size[1]/scale1)
+                    pic.width = Cm(8.8)
+                    dcTable.cell(1, 0).add_paragraph("{0}x{1}".format(imageInfo.size[0], imageInfo.size[1]))
+                elif(imageInfo.imageName.startswith(("HighLight"))):
+                    dcTable.cell(1, 0).add_paragraph()
+                    pr1 = dcTable.cell(1, 0).paragraphs[2].add_run()
+                    pic = pr1.add_picture(imageInfo.imagePath)
+                    scale1 = imageInfo.size[0] / 8.8
+                    pic.height = Cm(imageInfo.size[1] / scale1)
+                    pic.width = Cm(8.8)
             else:
                 p1 = None
                 if isFirstImage:
