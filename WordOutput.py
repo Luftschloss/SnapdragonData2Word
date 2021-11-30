@@ -93,6 +93,7 @@ def createSnapDragonDataDocx(csvDataPath, word_path, timePeriods, slicedPeriods)
     processDataCurveByConfig(document, matrixKeyList, matrixDataDic, slicedPeriods)
 
     document.save(word_path)
+    return os.getcwd() + '\\' + word_path
     print("Save SnapDragon Docx")
 
 
