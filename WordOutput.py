@@ -13,11 +13,21 @@ import numpy as np
 
 MultiGroupConfig = "MultiGroupConfig.json"
 MatrixInfoConfig = "SDConfig.json"
+ExeConfig = "ExeConfig.json"
 XAxisTitle = "Time / s"
 MatrixCurveWidth = 0.5
-MatrixCurveColor = [[50/255, 177/255, 250/255], [180/255, 144/255, 245/255], [249/255, 196/255, 15/255],
-                    [131/255, 211/255, 56/255], [243/255, 81/255, 69/255], [100/255, 125/255, 200/255],
-                    [50/255, 250/255, 20/255], [60/255, 50/255, 30/255], [240/255, 240/255, 240/255]]
+
+
+def GetColors():
+    colors = []
+    with open(ExeConfig, 'r', encoding='utf-8') as f:
+        colorConfig = json.loads(f.read())['Colors']
+        for color in colorConfig.values():
+            colors.append([color[0]/255, color[1]/255, color[2]/255])
+    return colors
+
+
+MatrixCurveColor = GetColors()
 
 
 # 处理数据组，生成Word内容

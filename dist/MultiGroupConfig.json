@@ -1,0 +1,95 @@
+{
+	"GPU Bus Busy（%）":["Global_GPU % Bus Busy"],
+
+	"GPU Frequency（M/s）": ["Global_GPU Frequency"],
+	
+	"Temperature（℃）":[
+		"Global_GPU Temperature",
+		"Global_Temperature"],
+	
+	"Texture Filtered（%）":[
+		"% Anisotropic Filtered", 
+		"% Linear Filtered", 
+		"% Nearest Filtered", 
+		"% Non-Base Level Textures"],
+	
+	"GPU Cache（%）":[
+		"% Texture L1 Miss", 
+		"% Texture L2 Miss",
+		"% Texture Fetch Stall",
+		"% Vertex Fetch Stall",
+		"% Stalled on System Memory"],
+
+	"ALU Per Shader": [
+		"ALU / Fragment",
+		"ALU / Vertex"],
+
+	"EFU Per Shader": [
+		"EFU / Fragment",
+		"EFU / Vertex"],
+	
+	"Shader Time（%）":[
+		"% Time Compute",
+		"% Time Shading Fragments", 
+		"% Time Shading Vertices", 
+		"% Shaders Busy"],
+
+	"ALU Working":[
+		"% Time ALUs Working",
+		"% Time EFUs Working"],
+	
+	"Fragment ALU Instructions":[
+		"Fragment ALU Instructions / Sec (Full)", 
+		"Fragment ALU Instructions / Sec (Half)",
+		"Fragment EFU Instructions / Second", 
+		"Fragment Instructions / Second"],
+
+	"Vertex ALU Instructions":[
+		"Vertex Instructions / Second"],
+
+	"Clocks（M/s）":["Clocks / Second"],
+
+	"FPS":["FPS"],
+
+	"ALU Capacity Utilized":["% Shader ALU Capacity Utilized"],
+
+	"CPU Utilization（%）":["CPU Utilization %"],
+
+	"Fragments Shaded":[
+		"Fragments Shaded / Second"],
+
+	"Vertices Shaded": [
+		"Vertices Shaded / Second"],
+
+	"Textures Per Shader": [
+		"Textures / Fragment",
+		"Textures / Vertex"],
+		
+	"L1 Miss Per Pixel":[
+		"L1 Texture Cache Miss Per Pixel"],
+
+	"SP Memory":[
+		"SP Memory Read (Bytes/Second)"],
+
+	"GPU Memory（MB/s）":[
+		"Read Total (Bytes/sec)",
+		"Texture Memory Read BW (Bytes/Second)",
+		"Vertex Memory Read (Bytes/Second)", 
+		"Write Total (Bytes/sec)"],
+
+	"Bytes Per Vertex": [
+		"Avg Bytes / Vertex"],
+
+	"Bytes Per Fragment": [
+		"Avg Bytes / Fragment"],
+
+	"Prims Clip（%）": [
+		"% Prims Clipped",
+		"% Prims Trivially Rejected"],
+
+	"Pre Clipped（%）": [
+		"Pre-clipped Polygons/Second"],
+
+	"Reused Vertices": [
+		"Reused Vertices / Second"]
+}

@@ -5,3 +5,7 @@ Figures/
 *.docx
 *.csv
 FrameCapture/
+build/
+dist/Figures/
+dist/*.dcox
+*.spec
