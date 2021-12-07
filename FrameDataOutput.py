@@ -4,12 +4,12 @@ import os
 from typing import List
 
 from docx import Document
-from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 from enum import Enum
 from PIL import Image
-from docx.shared import Cm, Inches, Pt
+from docx.shared import Cm, Pt, RGBColor
 
 
 class TableTool:
@@ -20,6 +20,12 @@ class TableTool:
         for row_num in range(len(tb.rows)):
             for col_num in range(len(tb.rows[0].cells)):
                 tb.cell(row_num, col_num).width = cols[col_num]
+
+    def add_title(tb, x, y, content):
+        run = tb.cell(x, y).paragraphs[0].add_run(content)
+        run.bold = True
+        run.font.color.rgb = RGBColor(79, 129, 189)
+        tb.cell(x, y).vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
 
 
 # 每一帧的数据类
@@ -162,7 +168,7 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
     document.add_heading('Summary', level=1)
     summaryParagraph = "单帧按" + Matrix + "排序，Top" + str(topNum) + "的DrawCall数据如下表"
     document.add_paragraph(summaryParagraph, style='Body Text')
-    dataTable = document.add_table(topNum + 2, 6, style="Light Grid")
+    dataTable = document.add_table(topNum + 2, 6, style="Table Grid")
     dataTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
     headLine = ["DrawCall", "Clocks", "Vertex Memory Read（KB）", "Texture Memory Read BW（KB）", "Write Total（KB）", "Read Total（KB）"]
     if Matrix == "Clocks":
@@ -171,8 +177,7 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         highLightIdx = 5
 
     for i in range(6):
-        dataTable.cell(0, i).text = headLine[i]
-
+        TableTool.add_title(dataTable, 0, i, headLine[i])
     drawCallSum = DrawCallData()
     drawCallSum.ID = "Sum"
     for dc in allDrawCalls:
@@ -212,12 +217,12 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         document.add_paragraph("DrawCall " + str(dc.ID))
         imageInfoList = getDrawCallImages(dc.ID, frameResPath)
         dcTable = document.add_table(2, 3, style="Table Grid")
-        # dcTable.width = Cm(9.2) + Cm(3) + Cm(3.2)
 
         dcTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
-        dcTable.cell(0, 0).text = "帧截图"
-        dcTable.cell(0, 1).text = "渲染相关资源"
-        dcTable.cell(0, 2).text = "GPU数据"
+
+        TableTool.add_title(dcTable, 0, 0, "帧截图")
+        TableTool.add_title(dcTable, 0, 1, "渲染相关资源")
+        TableTool.add_title(dcTable, 0, 2, "GPU数据")
 
         isFirstImage = True
         for imageInfo in imageInfoList:

@@ -1,6 +1,6 @@
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.shared import Inches
+from docx.shared import Inches, Cm
 
 import json
 import os
@@ -10,6 +10,8 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+
+from FrameDataOutput import TableTool
 
 MultiGroupConfig = "MultiGroupConfig.json"
 MatrixInfoConfig = "SDConfig.json"
@@ -61,17 +63,19 @@ def processDataCurveByConfig(document: Document, matrixKeyList, matrixDataDic, s
         curveImgPath = drawMultiAndSaveFigure(matrixDataArray, key, slicedPeriods)
         document.add_picture(curveImgPath, width=Inches(6))
         # 生成数据表格
-        dataTable = document.add_table(len(matrixDataArray) + 1, 4, style="Light Grid")
+        dataTable = document.add_table(len(matrixDataArray) + 1, 4, style="Table Grid")
         dataTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
         headLine = ["检测项", "最小值", "最大值", "平均值"]
         for i in range(4):
-            dataTable.cell(0, i).text = headLine[i]
+            TableTool.add_title(dataTable, 0, i, headLine[i])
         for i in range(len(matrixDataArray)):
             matrixData = matrixDataArray[i]
             dataLine = [matrixData.matrixNameCN, str(round(matrixData.minValue, 2)), str(round(matrixData.maxValue, 2)),
                         str(round(matrixData.getAverageValue(), 2))]
             for j in range(4):
                 dataTable.cell(i + 1, j).text = dataLine[j]
+        widths = (Cm(8.5), Cm(2.3), Cm(2.3), Cm(2.3))
+        TableTool.make_table_column(dataTable, widths)
 
 
 def processDataCurveOneByOne(document: Document, processTypeList, matrixDataDic):
