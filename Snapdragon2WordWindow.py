@@ -33,6 +33,7 @@ def SwitchFrame():
     slicedPeriodInput.place_forget()
     cur_csv_type = CSVType.Frame
 
+
 def ConvertWord():
     csv_path = filelb.cget("text")
     if cur_csv_type == CSVType.RealTime:

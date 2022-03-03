@@ -1,7 +1,0 @@
-style "start_page" = "default"
-{
-	ythickness = 0
-}
-
-widget_class "*WelcomeScreenView*GtkEventBox*" style "start_page"
-widget_class "*WelcomeScreenView*GtkButton*" style "start_page"

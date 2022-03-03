@@ -1,0 +1,608 @@
+# Snapdragon Profiler V2 GTK+ stylesheet
+# Copyright Qualcomm Technologies, Inc. 2015-2020
+
+gtk-theme-name = SDPThemeV2
+
+gtk-color-scheme = 
+"bg_content: #2A2B2C
+bg_color_default: #333333
+bg_color_selected: #5B5E60
+bg_color_prelight: #414445
+bg_color_insensitive: #333333
+text_color_default: #FEFEFE
+text_color: #FEFEFE
+text_color_selected: #FFFFFF
+link_color: #007ACC
+dim_color: #686868
+gray_1: #2F2F2F
+gray_2: #3C3C3C
+gray_3: #4D4D4D
+gray_4: #85898B
+menubar_bg_color: #3C3C3C
+textbox_bg_color: #3C3C3C
+textbox_text_color: #FEFEFE
+menu_text_color: #CDCDCD
+menu_bg_color: #262626
+menu_separator_color: #3C3C3C
+menu_selected_color: #094771
+bg_color: #2F2F2F
+base_color: #262626
+fg_color: #333333
+selected_bg_color: #3F3F3F
+unselected_bg_color: #2D2D2D
+badge_bg_color: #4D4D4D
+sdp_icon: #858585
+status_bg_color: #007ACC
+status_fg_color: #FEFEFE
+scrollbar_bg_color: #2D2D30
+scrollbar_handle_color: #3C3C3C
+scrollbar_handle_hover_color: #4F4F4F
+scrollbar_handle_backup_color: #686868
+scrollbar_arrow_color: #999999
+tooltip_bg_color: #37373D
+tooltip_fg_color: #FEFEFE
+snapdragon_color: #EE3124
+text_shade = 0.0"
+
+# Icons
+gtk-toolbar-icon-size = large-toolbar
+gtk-icon-sizes = "panel-menu=24,24:panel=16,16:gtk-button=24,24:gtk-large-toolbar=32,32:gtk-small-toolbar=24,24"
+
+gtk-menu-popup-delay = 1 
+gtk-enable-animations = 1
+gtk-auto-mnemonics = 1
+gtk-font-name = "Segoe UI 10"
+
+
+style "normal" {
+}
+
+widget "*" style "normal"
+
+style "default"
+{	
+	xthickness = 1
+	ythickness = 1
+
+	# colors
+
+	bg[NORMAL] = @bg_color
+	bg[PRELIGHT] = @selected_bg_color
+	bg[SELECTED] = @selected_bg_color
+	bg[ACTIVE] = @bg_color
+	bg[INSENSITIVE] = @bg_color
+  
+	base[NORMAL] = @base_color
+	base[PRELIGHT] = @selected_bg_color
+	base[SELECTED] = @selected_bg_color
+	base[INSENSITIVE] = @bg_color
+	base[ACTIVE] = shade(1.3, @selected_bg_color)
+
+	fg[NORMAL] = @text_color_default
+	fg[PRELIGHT] = @text_color_default
+	fg[SELECTED] = @text_color_default
+	fg[INSENSITIVE] = @dim_color
+	fg[ACTIVE] = @text_color_default
+
+	text[NORMAL] = @text_color_default
+	text[PRELIGHT] = @text_color_selected
+	text[SELECTED] = @text_color_default
+	text[INSENSITIVE] = @dim_color
+	text[ACTIVE] = @text_color_default
+
+	GtkWidget::link-color = @snapdragon_color
+	GtkWidget::visited-link-color = @snapdragon_color
+	
+	GtkWidget::tooltip-radius = 0
+	GtkWidget::tooltip-alpha = 235
+	GtkWidget::new-tooltip-style = 1 # for compatibility
+	GtkWidget::focus-line-width = 1
+
+	GtkMenu::horizontal-padding = 0
+	GtkMenu::vertical-padding = 2
+	GtkMenuItem::horizontal-padding = 6
+	GtkMenuItem::toggle-spacing = 6
+
+	GtkSeparatorMenuItem::horizontal-padding = 6
+	GtkSeparatorMenuItem::vertical-padding = 6
+	GtkSeparatorMenuItem::separator-height = 1
+
+	GtkButton::child-displacement-x = 0
+	GtkButton::child-displacement-y = 0
+	GtkButton::default-border = { 0, 0, 0, 0 }
+	GtkButton::default-outside_border = { 0, 0, 0, 0 }
+	GtkButton::inner-border = { 2, 2, 4, 4 }
+
+	GtkEntry::state-hint = 0
+
+	GtkRange::trough-border = 2
+	GtkRange::slider-width = 14
+
+	GtkScrollbar::activate-slider = 1
+	GtkScrollbar::has-backward-stepper = 0
+	GtkScrollbar::has-forward-stepper = 0
+
+	GtkScrolledWindow::scrollbar-spacing = 0
+	GtkScrolledWindow::scrollbars-within-bevel = 1	   
+
+	GtkScale::slider_length = 15
+	GtkScale::slider_width = 15
+	GtkScale::trough-side-details = 1
+
+	GtkComboBox::horizontal-padding = 5
+	GtkComboBox::vertical-padding = 4
+
+	GtkToolbar::internal-padding = 0
+	GtkToolButton::icon-spacing = 4
+
+	GtkStatusbar::shadow_type	= GTK_SHADOW_NONE
+	GtkSpinButton::shadow_type	= GTK_SHADOW_NONE
+	GtkMenuBar::shadow-type		= GTK_SHADOW_NONE
+	GtkMenu::shadow-type		= GTK_SHADOW_NONE
+	GtkToolbar::shadow-type		= GTK_SHADOW_NONE
+	GtkButton::shadow-type		= GTK_SHADOW_NONE
+
+	# Check button default to an indicator size of 14, we want 16.
+	GtkCheckButton::indicator-size = 16
+	GtkCheckButton::indicator_spacing = 4
+	GtkRadioButton::indicator-size = 16
+
+	# Focus border for check/radio button goes around text. We don't draw the
+	# focus border, so we set this to 0.
+	GtkCheckButton::focus-line-width = 0
+	GtkRadioButton::focus-line-width = 0
+
+	# Spacing between the indicator and text, default is 2.
+	GtkCheckButton::indicator-spacing = 2
+	GtkRadioButton::indicator-spacing = 2
+
+	GtkTreeView::row_ending_details = 0
+	GtkTreeView::expander-size = 11
+	GtkTreeView::vertical-separator = 4
+	GtkTreeView::horizontal-separator = 4
+	GtkTreeView::allow-rules = 1
+	GtkTreeView::odd_row_color = shade(0.98, @base_color)
+
+	GtkWindow::resize-grip-height		= 13
+	GtkWindow::resize-grip-width		= 13
+
+	engine "murrine"
+	{
+		arrowstyle = 0				# 0 = normal, 1 = filled
+		comboboxstyle = 0			# normal, 1 = colorized
+		focusstyle = 2				# 0 = none, 1 = grey dotted, 2 = colored with fill, 3 = colored glow
+		gradient_shades = { 1.0, 1.0, 1.0, 1.0}
+		lightborder_shade	= 0.0	# sets lightborder amount for buttons or widgets
+		lightborderstyle	= 0     # 0 = lightborder on top side, 1 = lightborder on all sides
+		listviewheaderstyle = 0		# 0 = flat, 1 = glassy, 2 = raised
+		listviewstyle		= 0		# 0 = nothing, 1 = dotted, 2 = solid
+		menustyle = 0				# no vertical menu stripe
+		menuitemstyle = 0			# flat
+		menubaritemstyle = 0		# menuitem look
+		progressbarstyle = 2		# 0 = nothing, 1 = stripes, 2 = lines
+		roundness = 3
+		separatorstyle = 1			# 0 = hard, 1 = smooth
+		spinbuttonstyle = 1
+		textstyle = 0
+		toolbarstyle = 0			# 0 = flat, 1 = glassy, 2 = gradient
+		reliefstyle = 0				# 0 = flat, 1 = inset, 2 = shadow
+	}
+}
+
+#class "GtkWidget" style "default"
+class "*" style "default"
+#class "GtkScrolledWindow" style "default"
+
+style "about" = "default"
+{
+	font_name = "Segoe UI 11"
+}
+
+widget_class "*AboutDialog*" style "about"
+
+##########################
+## Menu
+##########################
+
+style "menu" = "default"
+{
+	xthickness = 0
+	ythickness = 6
+
+	bg[NORMAL] = @menu_bg_color
+	bg[SELECTED] = @menu_selected_color
+	font_name = "Segoe UI 11"
+}
+
+style "menubar" = "default"
+{
+	xthickness = 8
+	ythickness = 16
+
+	bg[NORMAL] = @bg_color
+	bg[SELECTED] = @menu_selected_color
+}
+
+style "menubar-item" = "default"
+{
+	xthickness = 4
+	ythickness = 0
+
+	fg[NORMAL] = @menu_text_color
+	bg[SELECTED] = @menu_selected_color
+	fg[SELECTED] = @text_color_selected
+	font_name = "Segoe UI 11"
+}
+
+style "menu-separator" = "menubar-item" {
+	xthickness = 0
+	ythickness = 1
+	bg[NORMAL] = @menu_separator_color
+	bg[PRELIGHT] = @menu_separator_color
+	fg[NORMAL] = @menu_separator_color
+	fg[PRELIGHT] = @menu_separator_color
+
+	engine "murrine" {
+		contrast = 1.0
+	}
+}
+
+widget_class "*<GtkMenuBar>*" style "menubar"
+widget_class "*<GtkMenu>*" style "menu"
+widget_class "*<GtkMenuItem>*" style "menubar-item"
+widget_class "*<GtkMenuBar>.<GtkMenuItem>*" style "menubar-item"
+widget_class "*<GtkMenu>*" style "menu"
+widget_class "*<GtkSeparatorMenuItem>*" style "menu-separator"
+widget_class "*<GtkSeparatorToolItem>*" style "menu-separator"
+
+##########################
+## Buttons
+##########################
+
+style "button" = "default"
+{
+	xthickness = 2
+	ythickness = 4
+
+	bg[NORMAL] = @bg_color
+	bg[PRELIGHT] = @selected_bg_color	
+	
+	GtkButton::focus-line-width = 0
+	GtkButton::inner-border = { 0, 0, 0, 0 }
+	GtkButton::default-border = { 0, 0, 0, 0 }	
+	GtkButton::image-spacing = 2
+	GtkWidget::draw-border = { 0, 0, 0, 0 }
+
+	engine "murrine"
+	{
+		textstyle = 0 #1
+		roundness = 0
+	}
+}
+
+style "toggle-button" = "button"
+{
+	bg[NORMAL] = @bg_color
+	bg[ACTIVE] = @bg_color
+	bg[PRELIGHT] = @bg_color
+	fg[ACTIVE] = @text_color
+}
+
+class "GtkButton" style "button"
+widget_class "*<GtkToggleToolButton>*" style "toggle-button"
+widget_class "PropertyGridToolbar*RadioButton" style "button"
+
+##########################
+## Entry
+##########################
+
+style "entry" = "default"
+{
+  xthickness = 2
+  ythickness = 2
+  
+  base[NORMAL] = @textbox_bg_color
+  bg[NORMAL] = @textbox_bg_color
+  bg[PRELIGHT] = @textbox_bg_color
+  bg[SELECTED] = @selected_bg_color
+  bg[ACTIVE] = @textbox_bg_color
+  fg[NORMAL] = @textbox_text_color
+}
+
+class "GtkEntry" style "entry"
+class "GtkOldEditable" style "entry"
+class "GtkEditable" style "entry"
+widget_class "*<GtkEntry>*" style "entry"
+widget_class "*DefaultStateEntry*" style "entry"
+widget_class "*<GtkSpinButton>*" style "entry"
+
+##########################
+## Toolbar
+##########################
+
+style "toolbar" = "default"
+{
+	xthickness = 4
+	ythickness = 4
+
+	bg[NORMAL] = @base_color
+}
+
+widget_class "*HandleBox" style "toolbar"
+class "*HandleBox" style "toolbar"
+widget_class "*Toolbar" style "toolbar"
+class "*Toolbar" style "toolbar"
+
+style "toolbuttons" = "default"
+{
+	xthickness = 2
+	ythickness = 2
+	
+	bg[NORMAL] = @bg_color
+	bg[ACTIVE] = @selected_bg_color
+	bg[SELECTED] = @selected_bg_color
+	bg[PRELIGHT] = @selected_bg_color
+	
+	GtkButton::image-spacing = 0
+	GtkButton::focus-line-width = 0
+	
+	engine "murrine"
+	{
+		contrast = 1.0
+		textstyle = 0
+		roundness = 3
+	}
+}
+class "GtkToolButton" style "toolbuttons"
+widget_class "*.<GtkToggleToolButton>.*" style "toolbuttons"
+
+##########################
+## HandleBox / Paned
+##########################
+
+style "handlebox"	= "default"
+{
+	GtkPaned::handle-size = 5
+
+	engine "murrine" 
+	{
+		handlestyle = 1
+	}
+}
+class "GtkHandleBox" style "handlebox"
+class "GtkPaned" style "handlebox"
+
+##########################
+## Notebook / Docking
+##########################
+
+style "notebook" = "default"
+{
+	xthickness = 2
+	ythickness = 2
+	
+	bg[NORMAL] = @unselected_bg_color
+	bg[ACTIVE] = @selected_bg_color
+	
+	# NOTE: This color is used by docking framework for tabs
+	bg[PRELIGHT] = @menu_selected_color
+	
+	GtkNotebook::tab-overlap = 1
+}
+
+class "GtkNotebook" style "notebook"
+widget_class "*.GtkNotebook.*GtkEventBox" style "notebook"
+widget_class "*.GtkNotebook.*GtkViewport" style "notebook"
+widget_class "*<GtkNotebook>*<GtkDrawingArea>" style "notebook"
+widget_class "*<GtkNotebook>*<GtkLayout>" style "notebook"
+
+##########################
+## ListHeader / TreeView
+##########################
+
+style "list-header" = "default"
+{
+	bg[NORMAL] = @bg_color
+	base[NORMAL] = @bg_color
+	
+	ythickness = 4
+	xthickness = 2
+	
+	GtkTreeView::vertical-separator = 1
+	GtkTreeView::expander-size = 8
+	
+	engine "murrine" 
+	{
+		contrast = 1.0
+		listviewheaderstyle = 3
+		separatorstyle = 2
+		textstyle = 0
+	}
+}
+
+widget_class "*List" style "list-header"
+widget_class "*<GtkTree>*" style "list-header"
+widget_class "*GtkCList*" style "list-header"
+widget_class "*GtkCTree*" style "list-header"
+widget_class "*GtkList*" style "list-header"
+widget_class "*.ETree.*" style "list-header"
+class "GtkTreeView" style "list-header"
+widget_class "*.<GtkTreeView>.*" style "list-header"
+
+##########################
+## Scrollbar
+##########################
+
+style "scrollbar" = "default"
+{
+	fg[NORMAL] = @scrollbar_arrow_color		# active arrow
+	fg[PRELIGHT] = @scrollbar_handle_hover_color
+	fg[ACTIVE] = @scrollbar_handle_hover_color
+
+	bg[NORMAL] = @scrollbar_handle_color	# default slider/stepper color
+	bg[PRELIGHT] = @scrollbar_handle_hover_color	# hover slider/stepper color
+	bg[ACTIVE] = @scrollbar_handle_hover_color	# pressed stepper color
+
+	engine "murrine"
+	{
+		trough_shades = { 0.9, 0.9 }
+		scrollbarstyle = 0
+		roundness = 6 # needs to be large for wider scrollbar (prevent square artifact)
+	}
+}
+
+#class "GtkScrollbar" style "scrollbar"
+widget_class "*<GtkScrollbar>*" style "scrollbar"
+widget_class "*GtkScrollbar*GtkButton*" style "scrollbar"
+
+###########################
+## ProgressBar
+###########################
+
+style "progressbar"	 = "default"
+{
+	xthickness = 0
+	ythickness = 0
+	
+	bg[ACTIVE] = @gray_1
+	bg[SELECTED] = "#9FCC3B"
+
+	fg[SELECTED] = @gray_2
+	
+	engine "murrine" 
+	{
+		progressbarstyle = 1
+	}
+}
+widget_class "*ProgressBar*" style "progressbar"
+class "GtkProgressBar" style "progressbar"
+class "GtkBar" style "progressbar"
+
+##########################
+## CheckButtons
+##########################
+
+style "checkbutton" = "default"
+{
+	GtkCheckButton::indicator-size = 14
+	
+	engine "murrine" 
+	{
+		textstyle = 0
+	}
+}
+
+widget_class "*GtkCheckButton*" style "checkbutton"
+class "GtkCheckButton" style "checkbutton"
+class "GtkCheckMenuItem" style "checkbutton"
+
+##########################
+## ComboBox
+##########################
+style "combo" = "default"
+{
+	xthickness = 5
+	ythickness = 4
+
+	font_name = "Segoe UI 11"
+
+	engine "murrine" 
+	{
+		arrowstyle = 4
+		roundness = 0
+		arrowstyle = 2 # murrine arrowstyle 4 is too small
+		
+		comboboxstyle = 1
+	}
+}
+
+class "GtkCombo*" style "combo"
+widget_class "*Combo*" style "combo"
+#widget_class "*.<GtkComboBox>.<GtkCellView>"	style "combo"
+
+##########################
+## Tooltips
+##########################
+style "tooltips" {
+
+  xthickness = 8
+  ythickness = 4
+
+  base[NORMAL] = @tooltip_bg_color
+  bg[NORMAL] = @tooltip_bg_color
+  fg[NORMAL] = @tooltip_fg_color
+  bg[SELECTED] = @tooltip_bg_color
+
+  gtk-tooltip::shadow-type = GTK_SHADOW_NONE
+}
+
+# GTK tooltips
+widget "gtk-tooltip*" style "tooltips"
+
+##########################
+## SDP Specific includes
+##########################
+
+style "start_page" = "default"
+{
+	xthickness = 4
+	ythickness = 1
+
+	bg[NORMAL] = @unselected_bg_color
+
+	GtkButton::focus-line-width = 0
+	GtkButton::inner-border = { 0, 0, 0, 0 }
+	GtkButton::default-border = { 0, 0, 0, 0 }
+}
+
+style "start_page_actwidget" = "default"
+{
+	bg[SELECTED] = @selected_bg_color
+	font_name = "Segoe UI 11"
+}
+
+widget_class "*WelcomeScreenView*GtkEventBox*" style "start_page"
+widget_class "*WelcomeScreenView*GtkButton*" style "start_page"
+
+widget_class "*WelcomeScreenView*ActWidget*" style "start_page_actwidget"
+
+style "sdpstatusbar-button" = "button"
+{
+	xthickness = 0
+	ythickness = 0
+	
+	GtkButton::focus-line-width = 0
+	GtkButton::inner-border = { 0, 0, 0, 0 }
+	GtkButton::default-border = { 0, 0, 0, 0 }
+	GtkWidget::draw-border = { 0, 0, 0, 0 }
+}
+
+style "sdpstatusbar" = "default"
+{
+	base[NORMAL] = @status_bg_color
+	bg[NORMAL] = @status_bg_color
+	fg[NORMAL] = @status_bg_color
+}
+
+widget_class "*StatusBar*" style "sdpstatusbar"
+widget_class "*StatusBar*GtkButton*" style "sdpstatusbar-button"
+
+style "clientview-button" = "default"
+{
+	xthickness = 0
+	ythickness = 0
+	
+	GtkButton::focus-line-width = 0
+	
+	engine "" {}
+}
+
+style "propertygrid" = "default"
+{
+	ythickness = 20
+	bg[NORMAL] = @bg_color
+}
+
+widget_class "*PropertyGridTable*TableRow*" style "propertygrid"
+widget_class "*PropertyGrid" style "propertygrid"
+class "PropertyGrid" style "propertygrid"
