@@ -91,5 +91,11 @@
 		"Pre-clipped Polygons/Second"],
 
 	"Reused Vertices": [
-		"Reused Vertices / Second"]
+		"Reused Vertices / Second"],
+	"Global_GPU Memory（MB/s）":[
+		"Global_Read Total (Bytes/sec)",
+		"Global_Texture Memory Read BW (Bytes/Second)",
+		"Global_Vertex Memory Read (Bytes/Second)", 
+		"Global_Write Total (Bytes/sec)"],
+	"Global_Clocks（M/s）":["Global_Clocks / Second"]
 }

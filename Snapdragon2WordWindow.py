@@ -4,10 +4,14 @@ import FrameDataOutput
 import tkinter as tk
 import tkinter.filedialog
 
+frameResourcePath = "..\\Snapdragon2Word\\FrameCapture"
 
 class CSVType(Enum):
     RealTime = 1        # RealTime
     Frame = 2           # Frame
+
+
+cur_csv_type = CSVType.RealTime
 
 
 def OpenFileSelectWindow():
@@ -19,10 +23,15 @@ def OpenFileSelectWindow():
 
 
 def SwitchRealTime():
+    toplb.place_forget()
+    topCountInput.place_forget()
+
     lb1.place(x=20, y=50, anchor='w')
     timePeriodInput.place(x=20, y=80, anchor='w')
     lb2.place(x=20, y=110, anchor='w')
     slicedPeriodInput.place(x=20, y=140, anchor='w')
+
+    global cur_csv_type
     cur_csv_type = CSVType.RealTime
 
 
@@ -31,6 +40,11 @@ def SwitchFrame():
     timePeriodInput.place_forget()
     lb2.place_forget()
     slicedPeriodInput.place_forget()
+
+    toplb.place(x=20, y=50, anchor='w')
+    topCountInput.place(x=20, y=80, anchor='w')
+
+    global cur_csv_type
     cur_csv_type = CSVType.Frame
 
 
@@ -46,26 +60,35 @@ def ConvertWord():
             timeS = None
             if text2 != '':
                 timeS = list(map(int, text2.split(',')))
-            word = WordOutput.createSnapDragonDataDocx(csv_path, "RealTime.docx", timeP, timeS)
+            word = WordOutput.createSnapDragonDataDocx(csv_path, "SDPRealTime.docx", timeP, timeS)
         except Exception as err:
             tkinter.messagebox.showinfo(title='Warning', message=err)
         else:
             if word is not None:
                 tkinter.messagebox.showinfo(title='Succeed', message='生成成功！' + word)
     else:
-        frameDoc = FrameDataOutput.getTopDrawCall(csv_path, "11.docx", 15, "Read Total (Bytes)", frameResourcePath)
-
+        try:
+            topCount = 10
+            if not topCountInput.get() == "":
+                topCount = int(topCountInput.get())
+            word, retStr = FrameDataOutput.getTopDrawCall(csv_path, "SDPFrame.docx", topCount, "Read Total (Bytes)", frameResourcePath)
+        except Exception as err:
+            tkinter.messagebox.showinfo(title='Warning', message=err)
+        else:
+            if retStr is not None:
+                tkinter.messagebox.showinfo(title='Succeed', message='生成成功！' + word + "\n " + retStr)
 
 windowWidth = 600
 windowHeight = 400
 defaultTimePeriodStr = "输入数据时间段，格式如：(x1,x2),...,(n1,n2)"
 defaultSlicedPeriodStr = "输入分割线时间结点，格式如：x1,..,xn"
+defaultTopStr = "输入Top DrawCall数量"
 
 window = tk.Tk()
 window.title("Snapdragon2Word")
 window.geometry(str.format('{0}x{1}', windowWidth, windowHeight))
 window.resizable(0, 0)
-cur_csv_type = CSVType.RealTime
+
 # 菜单栏
 menuToolBar = tk.Menu(window)
 modelMenu = tk.Menu(menuToolBar, tearoff=0)
@@ -90,8 +113,10 @@ slicedPeriodInput = tk.Entry(window, show=None, width=50, font=('Arial', 12))
 slicedPeriodInput.place(x=20, y=140, anchor='w')
 covertBtn = tk.Button(window, text="生成Word", command=ConvertWord)
 covertBtn.place(x=580, y=110, anchor='e')
-window.mainloop()
 
-frameResourcePath = "..\\Snapdragon2Word\\FrameCapture"
-# "Read Total (Bytes)"、“Clocks”
-# frameDoc = FrameDataOutput.getTopDrawCall("11.csv", "11.docx", 15, "Read Total (Bytes)", frameResourcePath)
+toplb = tk.Label(window, text=defaultTopStr)
+toplb.place(x=20, y=50, anchor='w')
+topCountInput = tk.Entry(window, show=None, width=50, font=('Arial', 12))
+topCountInput.place(x=20, y=80, anchor='w')
+
+window.mainloop()

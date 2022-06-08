@@ -135,7 +135,7 @@ def getImageInfo(imageFoldPath, fileName: str):
 
 def getDrawCallImages(drawCall, imagePath):
     imageInfoList: List[ImageInfo] = []
-    dcImageFoldPath = os.path.abspath(imagePath + "\\" + str(drawCall))
+    dcImageFoldPath = imagePath + "\\" + str(drawCall)
     if os.path.isdir(dcImageFoldPath):
         files = os.listdir(dcImageFoldPath)
         for file in files:
@@ -164,50 +164,60 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
 
     allDrawCalls.sort(key=camp, reverse=True)
 
-    # 生成Top表格
-    document.add_heading('Summary', level=1)
-    summaryParagraph = "单帧按" + Matrix + "排序，Top" + str(topNum) + "的DrawCall数据如下表"
-    document.add_paragraph(summaryParagraph, style='Body Text')
-    dataTable = document.add_table(topNum + 2, 6, style="Table Grid")
-    dataTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
-    headLine = ["DrawCall", "Clocks", "Vertex Memory Read（KB）", "Texture Memory Read BW（KB）", "Write Total（KB）", "Read Total（KB）"]
-    if Matrix == "Clocks":
-        highLightIdx = 1
-    elif Matrix == "Read Total (Bytes)":
-        highLightIdx = 5
-
-    for i in range(6):
-        TableTool.add_title(dataTable, 0, i, headLine[i])
     drawCallSum = DrawCallData()
+    topReadsum = 0
+    topIdx = 0
     drawCallSum.ID = "Sum"
     for dc in allDrawCalls:
+        if topIdx < topNum:
+            topReadsum += dc.ReadTotal
+            topIdx += 1
         drawCallSum.Clocks += dc.Clocks
         drawCallSum.VertexRead += dc.VertexRead
         drawCallSum.TextureRead += dc.TextureRead
         drawCallSum.WriteTotal += dc.WriteTotal
         drawCallSum.ReadTotal += dc.ReadTotal
 
+    # 生成Top表格
+    document.add_heading('Summary', level=1)
+    summaryParagraph = "单帧按" + Matrix + "排序，Top" + str(topNum) + "的DrawCall带宽占比为"+ str("%.1f%%" % (topReadsum * 100.0 / drawCallSum.ReadTotal))+"，数据如下表:"
+    document.add_paragraph(summaryParagraph, style='Body Text')
+    dataTable = document.add_table(topNum + 2, 7, style="Table Grid")
+    dataTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
+    headLine = ["Index", "DrawCall", "Clocks", "Vertex Memory Read（KB）", "Texture Memory Read BW（KB）", "Write Total（KB）", "Read Total（KB）"]
+    if Matrix == "Clocks":
+        highLightIdx = 2
+    elif Matrix == "Read Total (Bytes)":
+        highLightIdx = 6
+
+    for i in range(7):
+        TableTool.add_title(dataTable, 0, i, headLine[i])
     dataTable.cell(topNum + 1, 0).text = drawCallSum.ID
-    dataTable.cell(topNum + 1, 1).text = str(drawCallSum.Clocks)
-    dataTable.cell(topNum + 1, 2).text = str(round(drawCallSum.VertexRead, 2))
-    dataTable.cell(topNum + 1, 3).text = str(round(drawCallSum.TextureRead, 2))
-    dataTable.cell(topNum + 1, 4).text = str(round(drawCallSum.WriteTotal, 2))
-    dataTable.cell(topNum + 1, 5).text = str(round(drawCallSum.ReadTotal, 2))
+    dataTable.cell(topNum + 1, 1).text = "-"
+    dataTable.cell(topNum + 1, 2).text = str(drawCallSum.Clocks)
+    dataTable.cell(topNum + 1, 3).text = str(round(drawCallSum.VertexRead, 2))
+    dataTable.cell(topNum + 1, 4).text = str(round(drawCallSum.TextureRead, 2))
+    dataTable.cell(topNum + 1, 5).text = str(round(drawCallSum.WriteTotal, 2))
+    dataTable.cell(topNum + 1, 6).text = str(round(drawCallSum.ReadTotal, 2))
     shading_elm1 = parse_xml(r'<w:shd {} w:fill="FFDE3B"/>'.format(nsdecls('w')))
     dataTable.cell(topNum + 1, highLightIdx)._tc.get_or_add_tcPr().append(shading_elm1)
 
+
     for i in range(topNum):
         drawCall = allDrawCalls[i]
-        dataLine = [str(drawCall.ID),
+        dataLine = [str(i), str(drawCall.ID),
                     getTaleValueStr(drawCall.Clocks, drawCallSum.Clocks),
                     getTaleValueStr(drawCall.VertexRead, drawCallSum.VertexRead),
                     getTaleValueStr(drawCall.TextureRead, drawCallSum.TextureRead),
                     getTaleValueStr(drawCall.WriteTotal, drawCallSum.WriteTotal),
                     getTaleValueStr(drawCall.ReadTotal, drawCallSum.ReadTotal)]
-        for j in range(6):
+        for j in range(7):
             dataTable.cell(i + 1, j).text = dataLine[j]
         shading_elm2 = parse_xml(r'<w:shd {} w:fill="FFDE3B"/>'.format(nsdecls('w')))
         dataTable.cell(i + 1, highLightIdx)._tc.get_or_add_tcPr().append(shading_elm2)
+
+    retStr = "Top {0} DrawCall 带宽占比 {1}".format(topNum,  str("%.1f%%" % (topReadsum * 100.0 / drawCallSum.ReadTotal)))
+    print(retStr)
 
     # 单个DrawCall数据处理
     fontSize = Pt(10)
@@ -262,7 +272,7 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         text.font.size = fontSize
 
         #Shader Info
-        drawCallDataPath = os.path.abspath(frameResPath + "\\" + str(drawCall.ID)) + "\\DrawCallData.txt"
+        drawCallDataPath = frameResPath + "\\" + str(drawCall.ID) + "\\DrawCallData.txt"
         if os.path.exists(drawCallDataPath):
             f = open(drawCallDataPath)
             shaderInfoStr = f.readlines()[0]
@@ -280,4 +290,6 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         widths = (Cm(9.2), Cm(3), Cm(3.2))
         TableTool.make_table_column(dcTable, widths)
     document.save(word_path)
+
     print("Save SDFrameData")
+    return os.getcwd() + '\\' + word_path, retStr

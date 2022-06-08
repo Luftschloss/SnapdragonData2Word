@@ -217,8 +217,17 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName, slicedPeriods):
 
     if slicedPeriods is not None:  # add sliced line
         deltaY = (maxY - minY) * 0.02
+        sliceIdx = 0
+        sliceCol = "r"
         for time in slicedPeriods:
-            plt.vlines(time, minY - deltaY, maxY + deltaY, colors="r", linestyles="dashed")
+            if (sliceIdx % 6) < 2:
+                sliceCol = "r"
+            elif (sliceIdx % 6) < 4:
+                sliceCol = "r"
+            else:
+                sliceCol = "r"
+            plt.vlines(time, minY - deltaY, maxY + deltaY, colors=sliceCol, linestyles="dashed")
+            sliceIdx += 1
 
     # Save Figure
     figureFoldPath = "Figures"
@@ -236,7 +245,6 @@ def CheckInTimePeriods(time, timePeriods):
         if timePeriod[0] < time < timePeriod[1]:
             return True
     return False
-
 
 # 读取CSV数据
 def csv_process(csv_path, timePeriods):
@@ -267,6 +275,7 @@ def csv_process(csv_path, timePeriods):
 
     for i in range(dataLen):
         key = processList[i] + '_' + matrixList[i]
+
         if not processTypeList.__contains__(processList[i]):
             processTypeList.append(processList[i])
         time = round(timeStampList[i] / 1000000, 1)

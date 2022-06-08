@@ -1,16 +1,16 @@
 import WordOutput
 import FrameDataOutput
-
+# import Snapdragon2WordWindow
 
 # 数据换区间段过滤设置为None
 timePeriods = None
-timePeriods = [(120, 680)]
+timePeriods = [(35, 179)]
 # 分割线区间段
 slicedPeriods = None
-slicedPeriods = [25, 46, 52, 83, 109, 136, 156, 180, 243, 258, 282, 303, 330, 348, 361, 380]
+slicedPeriods = [40, 68, 95, 120, 149, 176]
 
-word = WordOutput.createSnapDragonDataDocx("SKZY.csv", "SKZY.docx", timePeriods, slicedPeriods)
+word = WordOutput.createSnapDragonDataDocx("FSR.csv", "FSR.docx", timePeriods, slicedPeriods)
 
-frameResourcePath = "..\\Snapdragon2Word\\FrameCapture"
+frameResourcePath = "D:\WorkSpace\Snapdragon2Word\FrameCapture"
 # "Read Total (Bytes)"、“Clocks”
-# frameDoc = FrameDataOutput.getTopDrawCall("22.csv", "22.docx", 20, "Clocks", frameResourcePath)
+# frameDoc = FrameDataOutput.getTopDrawCall("c3.csv", "c3.docx", 20, "Read Total (Bytes)", frameResourcePath)
