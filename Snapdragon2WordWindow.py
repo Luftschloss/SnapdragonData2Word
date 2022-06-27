@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.filedialog
 
-frameResourcePath = "..\\Snapdragon2Word\\FrameCapture"
+frameResourcePath = "\\FrameCapture"
 
 
 class CSVType(Enum):

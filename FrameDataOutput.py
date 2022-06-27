@@ -67,6 +67,7 @@ class ImageInfo:
         self.size = (-1, -1)
         self.isFrameCapture = False
 
+
 def getAllDrawCalls(csv_path):
     csv_file = open(csv_path)
     csv_reader_lines = csv.reader(csv_file)
