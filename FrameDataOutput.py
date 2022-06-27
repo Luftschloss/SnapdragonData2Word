@@ -161,16 +161,23 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         camp = operator.attrgetter('WriteTotal')
     elif Matrix == "Clocks":
         camp = operator.attrgetter('Clocks')
+    elif Matrix == "":
+        camp = operator.attrgetter('')
 
     allDrawCalls.sort(key=camp, reverse=True)
 
     drawCallSum = DrawCallData()
-    topReadsum = 0
+    topDatasum = 0
     topIdx = 0
     drawCallSum.ID = "Sum"
     for dc in allDrawCalls:
         if topIdx < topNum:
-            topReadsum += dc.ReadTotal
+            if Matrix == "Read Total (Bytes)":
+                topDatasum += dc.ReadTotal
+            elif Matrix == "Texture Memory Read BW (Bytes)":
+                topDatasum += dc.WriteTotal
+            elif Matrix == "Clocks":
+                topDatasum += dc.Clocks
             topIdx += 1
         drawCallSum.Clocks += dc.Clocks
         drawCallSum.VertexRead += dc.VertexRead
@@ -180,7 +187,17 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
 
     # 生成Top表格
     document.add_heading('Summary', level=1)
-    summaryParagraph = "单帧按" + Matrix + "排序，Top" + str(topNum) + "的DrawCall带宽占比为"+ str("%.1f%%" % (topReadsum * 100.0 / drawCallSum.ReadTotal))+"，数据如下表:"
+    targetSum = 1
+    if Matrix == "Read Total (Bytes)":
+        str2 = "的DrawCall带宽（Read）占比为"
+        targetSum = drawCallSum.ReadTotal
+    elif Matrix == "Texture Memory Read BW (Bytes)":
+        str2 = "的DrawCall带宽（Write）占比为"
+        targetSum = drawCallSum.WriteTotal
+    elif Matrix == "Clocks":
+        str2 = "的DrawCall时钟周期（Clocks）占比为"
+        targetSum = drawCallSum.Clocks
+    summaryParagraph = "单帧按" + Matrix + "排序，Top" + str(topNum) + str2 + str("%.1f%%" % (topDatasum * 100.0 / targetSum)) + "，数据如下表:"
     document.add_paragraph(summaryParagraph, style='Body Text')
     dataTable = document.add_table(topNum + 2, 7, style="Table Grid")
     dataTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
@@ -216,7 +233,7 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         shading_elm2 = parse_xml(r'<w:shd {} w:fill="FFDE3B"/>'.format(nsdecls('w')))
         dataTable.cell(i + 1, highLightIdx)._tc.get_or_add_tcPr().append(shading_elm2)
 
-    retStr = "Top {0} DrawCall 带宽占比 {1}".format(topNum,  str("%.1f%%" % (topReadsum * 100.0 / drawCallSum.ReadTotal)))
+    retStr = "Top {0} {1} 占比 {2}".format(topNum, str2, str("%.1f%%" % (topDatasum * 100.0 / targetSum)))
     print(retStr)
 
     # 单个DrawCall数据处理
@@ -229,8 +246,8 @@ def getTopDrawCall(csv_path, word_path, topNum, Matrix, frameResPath):
         dcTable = document.add_table(2, 3, style="Table Grid")
 
         dcTable.alignment = WD_TABLE_ALIGNMENT.CENTER  # 居中
-
-        TableTool.add_title(dcTable, 0, 0, "帧截图")
+        TableTool.add_title(dcTable, 0, 0, "DrawCall及说明")
+        # TableTool.add_title(dcTable, 0, 0, "帧截图")
         TableTool.add_title(dcTable, 0, 1, "渲染相关资源")
         TableTool.add_title(dcTable, 0, 2, "GPU数据")
 

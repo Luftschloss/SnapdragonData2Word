@@ -223,9 +223,9 @@ def drawMultiAndSaveFigure(matrixDataArray, groupName, slicedPeriods):
             if (sliceIdx % 6) < 2:
                 sliceCol = "r"
             elif (sliceIdx % 6) < 4:
-                sliceCol = "r"
+                sliceCol = "g"
             else:
-                sliceCol = "r"
+                sliceCol = "b"
             plt.vlines(time, minY - deltaY, maxY + deltaY, colors=sliceCol, linestyles="dashed")
             sliceIdx += 1
 
